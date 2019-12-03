@@ -21,7 +21,7 @@ Put your own username/password converted in base64 format
 
 `echo "my_login_password_2VPNprovider" | base64  --> bXlfbG9naW5fcGFzc3dvcmRfMlZQTnByb3ZpZGVyCg==`
 
-The **service.yaml** configure the LoadBalancer (in my case [MetalLB](https://metallb.universe.tf/) to accept connections to the listening ports of the cotainers.  In order to share more ports on the same ip address a metallb.universe.tf/allow-shared-ip parameter has beed used. Change it according to your infrastructure
+The **service.yaml** configures the LoadBalancer (in my case [MetalLB](https://metallb.universe.tf/) to accept connections to the listening ports of the containers.  In order to share more ports on the same ip address a metallb.universe.tf/allow-shared-ip parameter has been used. Change it according to your infrastructure
 
 The **pvc.yaml** creates the PV for the emule temporary downloads using the rook storage class.  Change it according to your storageclass k8s installation.  The 50Gi size is purely indicative
 

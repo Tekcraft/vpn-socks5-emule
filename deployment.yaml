@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpn 
+  namespace: vpn 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpn 
+  template:
+    metadata:
+      labels:
+        app: vpn 
+    spec:
+      containers:
+      - image: chuckremes/openvpn-client 
+        name: openvpn-client 
+        env:
+        - name: OPENVPN_PROVIDER
+          value: "VYPRVPN" 
+        - name: OPENVPN_CONFIG 
+          value: "United Kingdom-256"
+        - name: OPENVPN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: authvpn
+              key: username
+        - name: OPENVPN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: authvpn
+              key: password
+        - name: LOCAL_NETWORK
+          value: 192.168.1.0/24
+        securityContext:
+          privileged: true
+      - image: xkuma/socks5 
+        name: socks5 
+        ports:
+        - containerPort: 1080 
+          name: socks5
+        ports:
+        - containerPort: 1080 
+          name: socks5
+      - image: reimashi/emule 
+        name: emule
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 4711
+        - containerPort: 8080
+        - containerPort: 23732
+        - containerPort: 23733
+          name: emule 
+        volumeMounts:
+        - name: tmp 
+          mountPath: /data/tmp
+        - name: completed 
+          mountPath: /data/download
+      - name: add-route
+        image: busybox
+        securityContext:
+          privileged: true
+        args:
+        - /bin/sh 
+        - -c
+        - "while true; do (route -n | grep 10.43.0.10); if [[ $? -eq 1 ]]; then route add -net 10.43.0.10 netmask 255.255.255.255 gw 169.254.1.1; fi; sleep 600; done;"
+      volumes:
+      - name: completed 
+        nfs:
+          server: 192.168.1.10 # Please change this to your NFS server
+          path: /Download/amule # Please change this to the relevant share
+      - name: tmp 
+        persistentVolumeClaim:
+          claimName: emule-tmp 

@@ -1,5 +1,5 @@
 # vpn-socks5-emule
-
+==================
 Kubernetes project based on ROOK ceph distribuited storage and NFS share. 
 It permits to use a vpn connection to shadow all torrent/emule activities by a SOCKS5 server (as a proxy for your torrent client) or directly inside the emule container thanks to the webgui admin page.
 There are 4 containers inside the created POD: openvpn-client, socks5 server, emule client, busybox container to add the route to the internal DNS K8s server (coreDNS)
@@ -18,6 +18,7 @@ The authentication to the VPN provider is configured in **secrets.yaml** on base
 Put your own username/password converted in base64 format
 
 `echo "my_login_username_2VPNprovider" | base64  --> bXlfbG9naW5fdXNlcm5hbWVfMlZQTnByb3ZpZGVyCg==`
+
 `echo "my_login_password_2VPNprovider" | base64  --> bXlfbG9naW5fcGFzc3dvcmRfMlZQTnByb3ZpZGVyCg==`
 
 The **service.yaml** configure the LoadBalancer (in my case [MetalLB](https://metallb.universe.tf/) to accept connections to the listening ports of the cotainers.  In order to share more ports on the same ip address a metallb.universe.tf/allow-shared-ip parameter has beed used. Change it according to your infrastructure

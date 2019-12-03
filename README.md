@@ -1,5 +1,5 @@
 # vpn-socks5-emule
-==================
+
 Kubernetes project based on ROOK ceph distribuited storage and NFS share. 
 It permits to use a vpn connection to shadow all torrent/emule activities by a SOCKS5 server (as a proxy for your torrent client) or directly inside the emule container thanks to the webgui admin page.
 There are 4 containers inside the created POD: openvpn-client, socks5 server, emule client, busybox container to add the route to the internal DNS K8s server (coreDNS)
@@ -26,3 +26,10 @@ The **service.yaml** configure the LoadBalancer (in my case [MetalLB](https://me
 The **pvc.yaml** creates the PV for the emule temporary downloads using the rook storage class.  Change it according to your storageclass k8s installation.  The 50Gi size is purely indicative
 
 The **deployment.yaml** creates the pod with the 4 containers inside: openvpn-client, socks5, add-route, emule.  They share the same docker pod namespace hence they see the same network and volumes. This configuration permits to route all the traffic inside the vpn tunnel
+
+## Version Guidance
+
+| Name | Version | 
+|---------------------|---------|
+| Kubernetes   | v1.14.8        | 
+| Rook         | v0.9           |

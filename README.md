@@ -29,7 +29,7 @@ The **deployment.yaml** creates the pod with the 4 containers inside: openvpn-cl
 
 Pay attention to the add-route container deployment.  Change the IP in the following command:
 
-`"while true; do (route -n | grep **10.43.0.10**); if [[ $? -eq 1 ]]; then route add -net **10.43.0.10** netmask 255.255.255.255 gw 169.254.1.1; fi; sleep 600; done;"`
+`"while true; do (route -n | grep` **10.43.0.10**`); if [[ $? -eq 1 ]]; then route add -net` **10.43.0.10** `netmask 255.255.255.255 gw 169.254.1.1; fi; sleep 600; done;"`
 
 according to your K8s internal dns address
 

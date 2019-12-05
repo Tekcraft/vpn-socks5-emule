@@ -61,10 +61,6 @@ spec:
         volumeMounts:
         - name: conf 
           mountPath: /var/lib/mldonkey 
-        - name: tmp 
-          mountPath: /mnt/mldonkey_tmp 
-        - name: completed 
-          mountPath: /mnt/mldonkey_completed 
       - name: add-route
         image: busybox
         securityContext:
@@ -74,15 +70,7 @@ spec:
         - -c
         - "while true; do (route -n | grep 10.43.0.10); if [[ $? -eq 1 ]]; then route add -net 10.43.0.10 netmask 255.255.255.255 gw 169.254.1.1; fi; sleep 600; done;"
       volumes:
-      - name: completed 
-        nfs:
-          server: 192.168.1.10 # Please change this to your NFS server
-          path: /Download/amule # Please change this to the relevant share
-      - name: tmp 
-        nfs:
-          server: 192.168.1.10 # Please change this to your NFS server
-          path: /Download/amule/tmp # Please change this to the relevant share
       - name: conf 
         nfs:
           server: 192.168.1.10 # Please change this to your NFS server
-          path: /Download/amule/conf # Please change this to the relevant share
+          path: /Download/amule # Please change this to the relevant share

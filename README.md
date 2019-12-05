@@ -23,8 +23,6 @@ Put your own username/password converted in base64 format
 
 The **service.yaml** configures the LoadBalancer (in my case [MetalLB](https://metallb.universe.tf/) to accept connections to the listening ports of the containers.  In order to share more ports on the same ip address a metallb.universe.tf/allow-shared-ip parameter has been used. Change it according to your infrastructure
 
-The **pvc.yaml** creates the PV for the emule temporary downloads using the rook storage class.  Change it according to your storageclass k8s installation.  The 50Gi size is purely indicative
-
 The **deployment.yaml** creates the pod with the 4 containers inside: openvpn-client, socks5, add-route, emule.  They share the same docker pod namespace hence they see the same network and volumes. This configuration permits to route all the traffic inside the vpn tunnel
 
 Pay attention to the add-route container deployment.  Change the IP in the following command:
@@ -38,4 +36,3 @@ according to your K8s internal dns address
 | Name | Version | 
 |---------------------|---------|
 | Kubernetes   | v1.14.8        | 
-| Rook         | v0.9           |

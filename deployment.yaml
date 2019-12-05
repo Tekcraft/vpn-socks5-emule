@@ -43,21 +43,28 @@ spec:
         ports:
         - containerPort: 1080 
           name: socks5
-      - image: reimashi/emule 
+      - image: angeletor/mldonkey 
         name: emule
         securityContext:
           privileged: true
         ports:
-        - containerPort: 4711
-        - containerPort: 8080
-        - containerPort: 23732
-        - containerPort: 23733
+        - containerPort: 20562 
+        - containerPort: 20566 
+        - containerPort: 6209
+        - containerPort: 16965 
+        - containerPort: 3617 
+        - containerPort: 6881 
+        - containerPort: 6882 
+        - containerPort: 4000 
+        - containerPort: 4080 
           name: emule 
         volumeMounts:
+        - name: conf 
+          mountPath: /var/lib/mldonkey 
         - name: tmp 
-          mountPath: /data/tmp
+          mountPath: /mnt/mldonkey_tmp 
         - name: completed 
-          mountPath: /data/download
+          mountPath: /mnt/mldonkey_completed 
       - name: add-route
         image: busybox
         securityContext:
@@ -72,5 +79,10 @@ spec:
           server: 192.168.1.10 # Please change this to your NFS server
           path: /Download/amule # Please change this to the relevant share
       - name: tmp 
-        persistentVolumeClaim:
-          claimName: emule-tmp 
+        nfs:
+          server: 192.168.1.10 # Please change this to your NFS server
+          path: /Download/amule/tmp # Please change this to the relevant share
+      - name: conf 
+        nfs:
+          server: 192.168.1.10 # Please change this to your NFS server
+          path: /Download/amule/conf # Please change this to the relevant share

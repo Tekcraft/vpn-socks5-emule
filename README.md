@@ -25,6 +25,14 @@ The **service.yaml** configures the LoadBalancer (in my case [MetalLB](https://m
 
 The **deployment.yaml** creates the pod with the 4 containers inside: openvpn-client, socks5, add-route, emule.  They share the same docker pod namespace hence they see the same network and volumes. This configuration permits to route all the traffic inside the vpn tunnel
 
+Change the volume mount NFS according to your configuration:
+
+```
+        nfs:
+          server: 192.168.1.10 # Please change this to your NFS server
+          path: /Download/amule # Please change this to the relevant share
+```
+
 Pay attention to the add-route container deployment.  Change the IP in the following command:
 
 `"while true; do (route -n | grep` **10.43.0.10**`); if [[ $? -eq 1 ]]; then route add -net` **10.43.0.10** `netmask 255.255.255.255 gw 169.254.1.1; fi; sleep 600; done;"`
